@@ -57,12 +57,26 @@
         });
 
         function show_order() {
+            $('#order-box').empty()
             $.ajax({
                 type: 'GET',
                 url: '/mars',
                 data: {},
                 success: function (response) {
-                    alert(response['msg'])
+                    let rows = response['orders']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let address = rows[i]['address']
+                        let size = rows[i]['size']
+
+                        let temp_html = `<tr>
+                                            <td>${name}</td>
+                                            <td>${address}</td>
+                                            <td>${size}</td>
+                                          </tr>`
+                        $('#order-box').append(temp_html)
+                    }
+
                 }
             });
         }
@@ -123,7 +137,7 @@
             <th scope="col">평수</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="order-box">
         <tr>
             <td>홍길동</td>
             <td>서울시 용산구</td>

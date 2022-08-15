@@ -1,8 +1,10 @@
+# DB
+
+
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# DB
 from pymongo import MongoClient
 import certifi
 
@@ -11,7 +13,6 @@ ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@cluster0.wbsdsc4.mongodb.net/Cluster0?retryWrites=true&w=majority',
                      tlsCAFile=ca)
 db = client.dbsparta
-
 
 @app.route('/')
 def home():
@@ -30,14 +31,15 @@ def mars_post():
         'size': size_receive
     }
 
-    db.mars.insert_one(doc)
+    db.orders.insert_one(doc)
 
-    return jsonify({'msg': '성공!'})
+    return jsonify({'msg': '주문 완료!'})
 
 
 @app.route("/mars", methods=["GET"])
-def web_mars_get():
-    return jsonify({'msg': 'GET 연결 완료!'})
+def mars_get():
+    orders_list = list(db.orders.find({}, {'_id': False}))
+    return jsonify({'orders': orders_list})
 
 
 if __name__ == '__main__':
