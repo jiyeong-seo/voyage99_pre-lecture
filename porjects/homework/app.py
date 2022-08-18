@@ -30,10 +30,7 @@ def homework_post():
     return jsonify({'msg': '응원 완료!'})
 
 
-@app.route("/homework", methods=["GET"])
-def homework_get():
-    comment_list = list(db.homework.find({}, {'_id': False}))
-    return jsonify({'comments': comment_list})
+
 
 
 if __name__ == '__main__':
